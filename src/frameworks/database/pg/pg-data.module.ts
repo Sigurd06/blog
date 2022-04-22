@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import { IDatabaseAbstract } from 'src/core/abstracts/database/database.abstract';
+import { IDatabaseAbstract } from 'src/frameworks/database/pg/core/abstracts/database.abstract';
 
-import * as entities from './entities';
+import * as entities from './domain/entities';
 import { PgDatabaseService } from './pg-data.service';
 
 @Module({

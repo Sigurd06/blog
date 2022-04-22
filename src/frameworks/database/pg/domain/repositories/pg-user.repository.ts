@@ -1,4 +1,4 @@
-import { IUserRepository } from 'src/core/abstracts/database/user-repository.abstract';
+import { IUserRepository } from '../../core/abstracts/user-repository.abstract';
 import { PgGenericRepository } from './pg-generic.repository';
 
 export class PgUserRepository<T>

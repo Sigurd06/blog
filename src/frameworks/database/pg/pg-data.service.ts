@@ -1,11 +1,11 @@
 import { OnApplicationBootstrap } from '@nestjs/common';
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IDatabaseAbstract } from 'src/core/abstracts/database/database.abstract';
-import { IUserRepository } from 'src/core/abstracts/database/user-repository.abstract';
+import { IDatabaseAbstract } from 'src/frameworks/database/pg/core/abstracts/database.abstract';
 import { Repository } from 'typeorm';
-import { User } from './entities';
-import { PgUserRepository } from './repositories/pg-user.repository';
+import { IUserRepository } from './core/abstracts/user-repository.abstract';
+import { User } from './domain/entities';
+import { PgUserRepository } from './domain/repositories/pg-user.repository';
 
 @Injectable()
 export class PgDatabaseService
