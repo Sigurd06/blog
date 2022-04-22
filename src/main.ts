@@ -9,6 +9,8 @@ import { TimeoutInterceptor } from './config/interceptors/timeout';
 import { LoggerService } from './config/logger/logger.service';
 import { SwaggerConfig } from './config/swagger/swagger';
 
+import * as basicAuth from 'express-basic-auth';
+
 async function bootstrap() {
   const configService = new ConfigService();
   const logger = new LoggerService();
@@ -25,6 +27,14 @@ async function bootstrap() {
   app.enableCors();
 
   app.setGlobalPrefix('api/v1/blog/');
+
+  app.use(
+    '/api/v1/blog/docs',
+    basicAuth({
+      challenge: true,
+      users: { blog: configService.get<string>('SWAGGER_PASS') },
+    }),
+  );
 
   SwaggerConfig.ConfigSwaggerModule(app);
 
