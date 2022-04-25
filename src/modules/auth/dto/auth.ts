@@ -1,31 +1,44 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ResponseFormat } from 'src/lib/dto/responses/response';
 
 export class SignUnDto {
-  @ApiProperty()
+  @ApiProperty({
+    default: 'example',
+  })
   @IsNotEmpty()
   @IsString()
   username: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    default: 'example@mail.com',
+  })
   @IsNotEmpty()
   @IsString()
+  @IsEmail()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    default: 'example',
+  })
   @IsNotEmpty()
   @IsString()
   password: string;
 }
+
 export class SignInDto {
-  @ApiProperty()
+  @ApiProperty({
+    default: 'example@mail.com',
+  })
   @IsNotEmpty()
   @IsString()
+  @IsEmail()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    default: 'example',
+  })
   @IsNotEmpty()
   @IsString()
   password: string;
