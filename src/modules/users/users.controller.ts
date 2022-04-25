@@ -27,8 +27,19 @@ export class UsersController {
 
   @ApiOkResponse({ type: UserOutputDto })
   @Get('profile/:username')
-  public async findByUsername(@Param('username') username: string) {
+  @ApiOperation({ summary: 'Get Profile by username' })
+  public async findProfileByUsername(@Param('username') username: string) {
     const user = await this.userService.findByUsername(username);
+    return plainToClass(UserOutput, user, { excludeExtraneousValues: true });
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AccessGuard)
+  @ApiOkResponse({ type: UserOutputDto })
+  @Get('profile')
+  @ApiOperation({ summary: 'Get me profile' })
+  async findMe(@Session() payload: IAccess) {
+    const user = await this.userService.findMeProfile(payload.id);
     return plainToClass(UserOutput, user, { excludeExtraneousValues: true });
   }
 

@@ -10,6 +10,22 @@ export class UsersService {
     private exceptions: ExceptionsService,
   ) {}
 
+  public async findByUsername(username: string) {
+    const user = await this.dataServices.users.findByUsername(username);
+    if (!user) {
+      this.exceptions.notFoundException({ message: 'User not found' });
+    }
+    return user;
+  }
+
+  public async findMeProfile(id: string) {
+    const user = await this.dataServices.users.findOne(id);
+    if (!user) {
+      this.exceptions.notFoundException({ message: 'Profile not found' });
+    }
+    return user;
+  }
+
   public async updateProfile(id: string, data: IUserUpdate) {
     const user = await this.dataServices.users.findOne(id);
     if (!user) {
@@ -28,13 +44,5 @@ export class UsersService {
     }
 
     await this.dataServices.users.update(user.id, data);
-  }
-
-  public async findByUsername(username: string) {
-    const user = await this.dataServices.users.findByUsername(username);
-    if (!user) {
-      this.exceptions.notFoundException({ message: 'User not found' });
-    }
-    return user;
   }
 }
