@@ -19,5 +19,5 @@ export class User extends Base {
   image?: string;
 
   @Column()
-  password: string;
+  password?: string;
 }

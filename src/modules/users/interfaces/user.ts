@@ -5,3 +5,9 @@ export interface IUser {
   image: string;
   bio?: string;
 }
+
+export interface IUserUpdate {
+  username: string;
+  email: string;
+  bio?: string;
+}

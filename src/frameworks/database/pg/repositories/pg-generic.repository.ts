@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { IGenericRepository } from '../../core/abstracts/generic-repository.abstract';
+import { IGenericRepository } from '../core/abstracts/generic-repository.abstract';
 
 export class PgGenericRepository<T> implements IGenericRepository<T> {
   public _repository: Repository<T>;
