@@ -1,5 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Base } from './base.entity';
+import { Comment } from './comment.entity';
+import { Post } from './post.entity';
 
 @Entity('users')
 export class User extends Base {
@@ -7,17 +15,32 @@ export class User extends Base {
   public readonly id?: string;
 
   @Column()
-  username: string;
+  public username: string;
 
   @Column({ unique: true })
-  email: string;
+  public email: string;
 
   @Column({ nullable: true })
-  bio?: string;
+  public bio?: string;
 
   @Column({ nullable: true })
-  image?: string;
+  public image?: string;
 
   @Column()
-  password?: string;
+  public password?: string;
+
+  @OneToMany(() => Post, (post) => post.owner, {
+    cascade: true,
+  })
+  public posts?: Post[];
+
+  @OneToMany(() => Comment, (comment) => comment.owner, {
+    cascade: true,
+  })
+  public comment?: Comment[];
+
+  @ManyToMany(() => Post, (post) => post.id, {
+    cascade: true,
+  })
+  public likes_posts?: Post[];
 }
