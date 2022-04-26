@@ -1,4 +1,4 @@
-import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export class Base {
   @CreateDateColumn()
@@ -6,7 +6,4 @@ export class Base {
 
   @UpdateDateColumn()
   public readonly updatedAt?: Date;
-
-  @DeleteDateColumn()
-  public readonly deletedAt?: Date;
 }
