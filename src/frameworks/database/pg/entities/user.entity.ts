@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Base } from './base.entity';
 import { Comment } from './comment.entity';
+import { CommentResponse } from './comment_response.entity';
 import { Post } from './post.entity';
 
 @Entity('users')
@@ -38,6 +39,11 @@ export class User extends Base {
     cascade: true,
   })
   public comment?: Comment[];
+
+  @OneToMany(() => CommentResponse, (response) => response.owner, {
+    onDelete: 'CASCADE',
+  })
+  public responses?: CommentResponse[];
 
   @ManyToMany(() => Post, (post) => post.id, {
     cascade: true,
