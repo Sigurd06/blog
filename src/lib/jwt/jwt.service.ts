@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { decode, sign, verify } from 'jsonwebtoken';
 import { ExceptionsService } from 'src/config/exceptions/exceptions.service';
-import { RedisService } from '../redis/redis.service';
+import { IRedisAbstract } from 'src/frameworks/database/redis/core/abstracts/redis.abstracts';
+
 import { IAccess, IRefresh } from './interfaces/jwt.interface';
 
 @Injectable()
 export class JWTService {
   constructor(
-    private readonly redis: RedisService,
+    private readonly redisSerivce: IRedisAbstract,
     private readonly config: ConfigService,
     private readonly exceptions: ExceptionsService,
   ) {}
@@ -39,17 +40,22 @@ export class JWTService {
     }
   }
 
-  public async createAccess(payload: IAccess) {
+  public async createAccess(payload: IAccess): Promise<string> {
     const access: any = this.config.get<string>('JWT_ACCESS_KEY');
     const token = sign(payload, access, { expiresIn: '8h' });
-    await this.redis.setSessionValue('access', payload.id, token, 3600 * 8);
+    await this.redisSerivce.redisJWT.setSessionValue(
+      'access',
+      payload.id,
+      token,
+      3600 * 8,
+    );
     return token;
   }
 
-  public async createRefresh(payload: IRefresh) {
+  public async createRefresh(payload: IRefresh): Promise<string> {
     const access: any = this.config.get<string>('JWT_REFRESH_KEY');
     const token = sign(payload, access, { expiresIn: '14d' });
-    await this.redis.setSessionValue(
+    await this.redisSerivce.redisJWT.setSessionValue(
       'refresh',
       payload.id,
       token,

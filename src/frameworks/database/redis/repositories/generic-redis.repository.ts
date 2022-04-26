@@ -1,26 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Logger } from '@nestjs/common';
 import { Tedis } from 'tedis';
+import { IGenericRedisService } from '../core/abstracts/generic-redis.abstract';
 
-@Injectable()
-export class RedisService {
+export class RedisGenericRepository implements IGenericRedisService {
   private readonly logger: Logger = new Logger('Redis');
   private tedis: Tedis;
 
-  constructor(config: ConfigService) {
-    let redis = {
-      // password: config.get<string>('REDIS_PASSWORD'),
-      host: config.get<string>('REDIS_HOST'),
-      port: config.get<number>('REDIS_PORT'),
-    };
-    if (config.get<string>('STAGE') === 'dev')
-      redis = {
-        // password: config.get<string>('REDIS_PASSWORD_DEV'),
-        host: config.get<string>('REDIS_HOST_DEV'),
-        port: config.get<number>('REDIS_PORT_DEV'),
-      };
-    this.tedis = new Tedis(redis);
-    this.logger.log('Redis connection established');
+  constructor(redis: Tedis) {
+    this.tedis = redis;
   }
 
   private generateSessionKey(type: string, key: string) {
