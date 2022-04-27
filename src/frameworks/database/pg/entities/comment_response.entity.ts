@@ -6,7 +6,7 @@ import { User } from './user.entity';
 @Entity('comments_responses')
 export class CommentResponse extends Base {
   @PrimaryGeneratedColumn('uuid')
-  public id: string;
+  public id?: string;
 
   @Column()
   public content: string;

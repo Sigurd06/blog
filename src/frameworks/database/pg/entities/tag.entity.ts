@@ -5,9 +5,9 @@ import { Post } from './post.entity';
 @Entity('tags')
 export class Tag extends Base {
   @PrimaryGeneratedColumn('uuid')
-  public id: string;
+  public id?: string;
 
-  @Column()
+  @Column({ unique: true })
   public name: string;
 
   @ManyToMany(() => Post, (post) => post.tags)

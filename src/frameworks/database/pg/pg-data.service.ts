@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { ICommentRepository } from './core/abstracts/comment-repository.abstract';
 import { ICommentResponseRepository } from './core/abstracts/comment_response-repository.abstract';
 import { IPostRepository } from './core/abstracts/post-repository.abstract';
+import { ITagRepository } from './core/abstracts/tag-repository.abstract';
 import { IUserRepository } from './core/abstracts/user-repository.abstract';
 import { Comment, CommentResponse, Post, Tag, User } from './entities';
 import { PgCommentResponseRepository } from './repositories/pg-comment-response.repository';
@@ -22,7 +23,7 @@ export class PgDatabaseService
   public posts: IPostRepository<Post>;
   public comments: ICommentRepository<Comment>;
   public commentsResponses: ICommentResponseRepository<CommentResponse>;
-  public tags: IPostRepository<Tag>;
+  public tags: ITagRepository<Tag>;
 
   constructor(
     @InjectRepository(User)

@@ -4,16 +4,18 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Base } from './base.entity';
+import { Comment } from './comment.entity';
 import { Tag } from './tag.entity';
 import { User } from './user.entity';
 
 @Entity('posts')
 export class Post extends Base {
   @PrimaryGeneratedColumn('uuid')
-  public readonly id: string;
+  public readonly id?: string;
 
   @Column()
   public title: string;
@@ -30,11 +32,11 @@ export class Post extends Base {
   @JoinTable({
     name: 'posts_tags',
     joinColumn: {
-      name: 'tag',
+      name: 'post',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'post',
+      name: 'tag',
       referencedColumnName: 'id',
     },
   })
@@ -46,13 +48,18 @@ export class Post extends Base {
   @JoinTable({
     name: 'posts_likes',
     joinColumn: {
-      name: 'owner',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
       name: 'post',
       referencedColumnName: 'id',
     },
+    inverseJoinColumn: {
+      name: 'owner',
+      referencedColumnName: 'id',
+    },
   })
-  public like_owners?: User;
+  public like_owners?: User[];
+
+  @OneToMany(() => Comment, (comment) => comment.post, {
+    cascade: true,
+  })
+  comments?: Comment[];
 }
